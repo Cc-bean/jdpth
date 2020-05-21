@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>全局</title>
+</head>
+<link href="/static/css/all.css" rel="stylesheet"/>
+<link href="/static/css/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+<script src="/static/js/jquery-1.11.0.min.js"></script>
+<script src="/static/js/echarts.common.min.js"></script>
+<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/static/js/dark.js"></script>
+<script src="/static/js/uri.js"></script>
+<script src="/static/js/vue.min.js"></script>
+<body>
+<!-- 法规弹出框 -->
+<div class="tanchukuang" id="fagui" onclick="hidenit(this)">
+
+</div>
+<div class="content-right" id="menu">
+    <a class="active" onclick="changmenu(this)" href="#zj">资金</a>
+    <a onclick="changmenu(this)" href="#dw">党务</a>
+    <a onclick="changmenu(this)" href="#cw">村务</a>
+    <a onclick="changmenu(this)" href="#fk">反馈</a>
+    <a onclick="changmenu(this)" href="#fg">法规</a>
+</div>
+<div class="content-left">
+    <!-- 资金 -->
+    <div class="swiper-slide" id="zj">
+        <div class="fk-content">
+            <div class="fk-paiming" id="zj_zhichu2">
+            </div>
+            <div class="fk-bingtu">
+                <div class="fk-bingtu-tu" id='zj_zhichu1'>
+                </div>
+                <div class="fk-bingtu-key" id="zj1">
+                    <table style="width: 94%;height: 100%;margin-left: 3%;" border="0" cellspacing="0" cellpadding="0">
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="fk-content" style="margin-top: 0;">
+            <div class="fk-bingtu">
+                <div class="fk-bingtu-key" id='zj2'>
+                    <table style="width: 94%;height: 100%;margin-left: 3%;" border="0" cellspacing="0" cellpadding="0">
+                    </table>
+                </div>
+                <div class="fk-bingtu-tu" id="zj_shouru1">
+                </div>
+            </div>
+            <div class="fk-paiming" id="zj_shouru2">
+            </div>
+        </div>
+    </div>
+    <script>
+        timeDuan = window.parent.mydata.value;
+
+        /* 资金 */
+        $.ajax({
+            url: uri + "leaderCapitalController/findAllCapital",
+            data: {
+                regionId: 1349,
+                date: timeDuan
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                console.log("全区资金");
+                console.log(data);
+                var srseriesdata = [];
+                var zcseriesdata = [];
+                var legenddata = [];
+                /* var syear=timeDuan.substring(0,4);
+						var smouth=parseInt(timeDuan.substring(5,7));
+						var eyear=timeDuan.substring(11,15);
+						var emouth=timeDuan.substring(16,18);
+						console.log(syear+"/"+smouth+"/"+eyear+"/"+emouth);
+						if(syear<eyear){
+							for(var i=syear;i<=eyear;i++){
+								if(i==syear){
+									for(var j=smouth;j<13;j++){
+										if(j>9){
+											xAxisdata.push(i+"-"+j)
+										}else{
+											xAxisdata.push(i+"-0"+j)
+										}
+
+									}
+								}else if(i>syear&&i<eyear){
+									for(var j=1;j<13;j++){
+										if(j>9){
+											xAxisdata.push(i+"-"+j)
+										}else{
+											xAxisdata.push(i+"-0"+j)
+										}
+									}
+								}else{
+									for(var j=1;j<=emouth;j++){
+										if(j>9){
+											xAxisdata.push(i+"-"+j)
+										}else{
+											xAxisdata.push(i+"-0"+j)
+										}
+									}
+								}
+							}
+						}
+						if(syear==eyear){
+
+						}
+						console.log(xAxisdata); */
+
+                var str1 = "<table style='width: 94%;height: 100%;margin-left: 3%;' border='0' cellspacing='0' cellpadding='0'>";
+                var str2 = "<table style='width: 94%;height: 100%;margin-left: 3%;' border='0' cellspacing='0' cellpadding='0'>";
+                for (var i = 0; i < data.data.length; i++) {
+                    var sritem = {value: 0, name: ""};
+                    var zcitem = {value: 0, name: ""};
+                    sritem.value = (data.data[i].bankIncome + data.data[i].cashIncome).toFixed(2);
+                    sritem.name = data.data[i].zhen.zName;
+                    zcitem.value = (data.data[i].bankExpenditure + data.data[i].cashExpenditure).toFixed(2);
+                    zcitem.name = data.data[i].zhen.zName;
+                    srseriesdata[i] = sritem;
+                    zcseriesdata[i] = zcitem;
+                    str1 += "<tr><td>" + zcitem.name + "总支出：</td><td>" + zcitem.value + "元</td></tr>";
+                    str2 += "<tr><td>" + sritem.name + "总收入：</td><td>" + sritem.value + "元</td></tr>";
+                    legenddata[i] = zcitem.name;
+                    for (var j = 0; j <= data.data[i].capital.length; j++) {
+
+                    }
+                }
+                //console.log(legenddata);
+                str1 += "</table>";
+                str2 += "</table>";
+                document.getElementById("zj1").innerHTML = str1;
+                ;
+                document.getElementById("zj2").innerHTML = str2;
+                //支出饼图
+                zjoption1 = {
+                    title: {
+                        text: '该时间段内各区域支出饼图',
+                        left: 'center',
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '支出金额单位：（元）',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['50%', '50%'],
+                            data: zcseriesdata,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            },
+
+                            animationType: 'scale',
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (idx) {
+                                return Math.random() * 200;
+                            }
+                        }
+                    ]
+                };
+                var zjChart1 = echarts.init(document.getElementById('zj_zhichu1'), 'dark');
+                zjChart1.setOption(zjoption1);
+
+                //收入饼图
+                zjoption2 = {
+                    title: {
+                        text: '该时间段内各区域收入饼图',
+                        left: 'center',
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '收入金额单位：（元）',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['50%', '50%'],
+                            data: srseriesdata,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            },
+
+                            animationType: 'scale',
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (idx) {
+                                return Math.random() * 200;
+                            }
+                        }
+                    ]
+                };
+                var zjChart2 = echarts.init(document.getElementById('zj_shouru1'), 'dark');
+                zjChart2.setOption(zjoption2);
+
+
+                //支出折线图
+
+
+                zjoption3 = {
+                    title: {
+                        text: '该时间段内各区域资金支出折线图',
+                        top: 20,
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['区域1', '区域2', '区域3', '区域4', '区域5', '区域6', '区域7', '区域8'],
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right: 10,
+                        top: 20,
+                        bottom: 20,
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '90',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        },
+                        top: 0,
+                        right: 100
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                        nameTextStyle: {
+                            color: '#ccc',
+                            borderColor: '#ccc',
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: '区域1',
+                            type: 'line',
+                            data: [120, 132, 101, 134, 90, 230, 210]
+                        },
+                        {
+                            name: '区域2',
+                            type: 'line',
+                            data: [220, 182, 191, 234, 290, 330, 310]
+                        },
+                        {
+                            name: '区域3',
+                            type: 'line',
+                            data: [150, 232, 201, 154, 190, 330, 410]
+                        },
+                        {
+                            name: '区域4',
+                            type: 'line',
+                            data: [320, 332, 301, 334, 390, 330, 320]
+                        },
+                        {
+                            name: '区域5',
+                            type: 'line',
+                            data: [820, 932, 901, 934, 1290, 1330, 1320]
+                        },
+                        {
+                            name: '区域6',
+                            type: 'line',
+                            data: [420, 932, 901, 934, 1290, 1330, 1320]
+                        },
+                        {
+                            name: '区域7',
+                            type: 'line',
+                            data: [820, 932, 901, 634, 1290, 1330, 1320]
+                        }
+                    ]
+                };
+                var zjChart3 = echarts.init(document.getElementById('zj_zhichu2'), 'dark');
+                zjChart3.setOption(zjoption3);
+                //收入折线图
+                zjoption4 = {
+                    title: {
+                        text: '该时间段内各区域资金收入折线图',
+                        top: 20,
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['区域1', '区域2', '区域3', '区域4', '区域5', '区域6', '区域7', '区域8'],
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right: 10,
+                        top: 20,
+                        bottom: 20,
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '90',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        },
+                        top: 0,
+                        right: 100
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                        nameTextStyle: {
+                            color: '#ccc',
+                            borderColor: '#ccc',
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: '区域1',
+                            type: 'line',
+                            data: [120, 132, 101, 134, 90, 230, 210]
+                        },
+                        {
+                            name: '区域2',
+                            type: 'line',
+                            data: [220, 182, 191, 234, 290, 330, 310]
+                        },
+                        {
+                            name: '区域3',
+                            type: 'line',
+                            data: [150, 232, 201, 154, 190, 330, 410]
+                        },
+                        {
+                            name: '区域4',
+                            type: 'line',
+                            data: [320, 332, 301, 334, 390, 330, 320]
+                        },
+                        {
+                            name: '区域5',
+                            type: 'line',
+                            data: [820, 932, 901, 934, 1290, 1330, 1320]
+                        },
+                        {
+                            name: '区域6',
+                            type: 'line',
+                            data: [420, 932, 901, 934, 1290, 1330, 1320]
+                        },
+                        {
+                            name: '区域7',
+                            type: 'line',
+                            data: [820, 932, 901, 634, 1290, 1330, 1320]
+                        }
+                    ]
+                };
+                var zjChart4 = echarts.init(document.getElementById('zj_shouru2'), 'dark');
+                zjChart4.setOption(zjoption4);
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+
+
+    </script>
+    <!-- 党务 -->
+    <div class="swiper-slide">
+        <div class="fk-content" id="dw">
+            <div class="dy-paiming" id="dw1">
+                <h4>该时间段内党内活动数量排名</h4>
+                <p class="a33"><span>排名</span><span>区域名</span><span>活动数量</span></p>
+                <a class="a33" href="noquanju.html" target="_self"><span>排名</span><span>区域名</span><span>活动数量</span></a>
+                <a class="a33" href="noquanju.html" target="_self"><span>排名</span><span>区域名</span><span>活动数量</span></a>
+            </div>
+            <div class="dy-bingtu" id='dw2'>
+                <h4>目前各区域党员等数量</h4>
+                <p class="a5"><span>区域名</span><span>正式党员</span><span>积极分子</span><span>预备党员</span><span>发展对象</span></p>
+                <a class="a5"><span>区域名</span><span>正式党员</span><span>积极分子</span><span>预备党员</span><span>发展对象</span></a>
+                <a class="a5"><span>区域名</span><span>正式党员</span><span>积极分子</span><span>预备党员</span><span>发展对象</span></a>
+            </div>
+        </div>
+        <div class="fk_class" id='dy-bingtu'></div>
+    </div>
+    <script>
+        timeDuan = window.parent.mydata.value;
+        /* 全区折线图 */
+        $.ajax({
+            url: uri + "findDangyaunByQu",
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                //console.log("党务全区折线图");
+                var xAxisdata = [];
+                var date = new Date();
+                var year = date.getFullYear();
+                for (var i = 2012; i <= year; i++) {
+                    xAxisdata[i - 2012] = i + "年";
+                }
+                var legenddata = [];
+                for (var i = 0; i <= 8; i++) {
+                    legenddata[i] = data.data[i][0];
+                }
+                //console.log(legenddata);
+                //console.log(data);
+                var years = data.data.length / 8;
+                var seriesdata = [];
+                for (var i = 0; i < 8; i++) {
+                    var seriesdataitem = [];
+                    for (var j = 0; j < years; j++) {
+                        var number1 = data.data[j * 8 + i][1];
+                        var thenum = Number(number1);
+                        seriesdataitem[j] = thenum;
+                    }
+                    //console.log(seriesdataitem);
+                    seriesdata[i] = seriesdataitem;
+
+                }
+                dyoption1 = {
+                    title: {
+                        text: '至今党员等前后数量变化折线图',
+                        left: 'left',
+                        top: 20,
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: legenddata
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        },
+                        top: 20
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xAxisdata,
+                        nameTextStyle: {
+                            color: '#ccc',
+                            borderColor: '#ccc',
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: legenddata[0],
+                            type: 'line',
+                            data: seriesdata[0]
+                        },
+                        {
+                            name: legenddata[1],
+                            type: 'line',
+                            data: seriesdata[1]
+                        },
+                        {
+                            name: legenddata[2],
+                            type: 'line',
+                            data: seriesdata[2]
+                        },
+                        {
+                            name: legenddata[3],
+                            type: 'line',
+                            data: seriesdata[3]
+                        },
+                        {
+                            name: legenddata[4],
+                            type: 'line',
+                            data: seriesdata[4]
+                        },
+                        {
+                            name: legenddata[5],
+                            type: 'line',
+                            data: seriesdata[5]
+                        },
+                        {
+                            name: legenddata[6],
+                            type: 'line',
+                            data: seriesdata[6]
+                        },
+                        {
+                            name: legenddata[7],
+                            type: 'line',
+                            data: seriesdata[7]
+                        }
+                    ]
+                };
+                var dyChart1 = echarts.init(document.getElementById('dy-bingtu'), 'dark');
+                dyChart1.setOption(dyoption1);
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+        /* 全区情况变更已完成 */
+        $.ajax({
+            url: uri + "countByqu",
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 5000,//超时时间设置为10秒；
+            success: function (data) {
+                //console.log("全区情况变更");
+                //console.log(data);
+                var str = "<h4>目前各区域党员等数量</h4>";
+                str += "<p class='a5'><span>区域名</span><span>积极分子</span><span>发展对象</span><span>预备党员</span><span>正式党员</span></p>";
+                for (var i = 0; i < data.data.length; i += 5) {
+                    str += "<a class='a5'><span>" + data.data[i] + "人</span><span>" + data.data[i + 1] + "人</span><span>" + data.data[i + 2] + "人</span><span>" + data.data[i + 3] + "人</span><span>" + data.data[i + 4] + "人</span></a>"
+                }
+                document.getElementById("dw2").innerHTML = str;
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+
+    </script>
+    <!-- 村务 -->
+    <div class="swiper-slide" id="cw">
+        <div class="fk-content">
+            <div class="dy-paiming" id="cw1" style="height: 60vh;">
+            </div>
+            <div class="dy-bingtu" id='cw2' style="height: 60vh;">
+            </div>
+        </div>
+    </div>
+    <script>
+        /* 村活动排名ok */
+        $.ajax({
+            url: uri + "chdqu",
+            data: {
+                time: timeDuan
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                //console.log("村活动排名");
+                //console.log(data);
+                var huodongdata = [];
+                for (var i = 0; i < data.data.length; i++) {
+                    var item = [data.data[i].name, data.data[i].total];
+                    huodongdata[i] = item;
+                }
+                for (var i = 0; i < huodongdata.length; i++) {
+                    for (var j = i + 1; j < huodongdata.length; j++) {
+                        if (huodongdata[i][1] < huodongdata[j][1]) {
+                            temp = huodongdata[j];
+                            huodongdata[j] = huodongdata[i];
+                            huodongdata[i] = temp;
+                        }
+                    }
+                }
+                var str = "<h4>该时间段内活动数量地区排名</h4>";
+                str += "<p class='a33'><span>排名</span><span>区域名</span><span>已处理</span></p>";
+
+                for (var i = 0; i < huodongdata.length; i++) {
+                    str += "<a class='a33'><span>" + (i + 1) + "</span><span>" + huodongdata[i][0] + "</span><span>" + huodongdata[i][1] + "</span></a>";
+
+                }
+                document.getElementById("cw1").innerHTML = str;
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+        /* 村活动折线 */
+        $.ajax({
+            url: uri + "qzxian",
+            data: {
+                time: timeDuan
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (message) {
+                //console.log("村活动折线");
+                //console.log(message);
+                var data = message.data[0];
+                //console.log(data);
+                var legenddata = [];
+                for (var i = 0; i < 8; i++) {
+                    //console.log(data[i].name);
+                    legenddata[i] = data[i].name;
+                }
+                var xAxisdata = [];
+                var date = new Date();
+                var year = date.getFullYear();
+                var seriesdata = [];
+                for (var i = 2012; i <= year; i++) {
+                    xAxisdata[i - 2012] = i;
+                }
+                var years = xAxisdata.length;
+
+                for (var i = 0; i < 8; i++) {
+                    var seriesdataitem = [];
+                    var thedata = data[i].time;
+                    if (thedata == undefined) {
+                        for (var j = 0; j < years; j++) {
+                            seriesdataitem[j] = 0;
+                        }
+                    }
+                    if (thedata != undefined) {
+                        //console.log(thedata);
+                        for (var j = 0; j < years; j++) {
+                            seriesdataitem[j] = thedata[j].total;
+                        }
+                    }
+                    //console.log(seriesdataitem);
+                    seriesdata[i] = seriesdataitem;
+                }
+                //console.log(seriesdata);
+                cwoption1 = {
+                    title: {
+                        text: '各区域活动数量年份变化折线图',
+                        top: 20,
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: legenddata
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xAxisdata,
+                        nameTextStyle: {
+                            color: '#ccc',
+                            borderColor: '#ccc',
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: legenddata[0],
+                            type: 'line',
+                            data: seriesdata[0]
+                        },
+                        {
+                            name: legenddata[1],
+                            type: 'line',
+                            data: seriesdata[1]
+                        },
+                        {
+                            name: legenddata[2],
+                            type: 'line',
+                            data: seriesdata[2]
+                        },
+                        {
+                            name: legenddata[3],
+                            type: 'line',
+                            data: seriesdata[3]
+                        },
+                        {
+                            name: legenddata[4],
+                            type: 'line',
+                            data: seriesdata[4]
+                        },
+                        {
+                            name: legenddata[5],
+                            type: 'line',
+                            data: seriesdata[5]
+                        },
+                        {
+                            name: legenddata[6],
+                            type: 'line',
+                            data: seriesdata[6]
+                        },
+                        {
+                            name: legenddata[7],
+                            type: 'line',
+                            data: seriesdata[7]
+                        }
+                    ]
+                };
+                var cwChart1 = echarts.init(document.getElementById('cw2'), 'dark');
+                cwChart1.setOption(cwoption1);
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+
+    </script>
+    <!-- 反馈 -->
+    <div class="swiper-slide" id="fk">
+        <div class="fk-content">
+            <div class="fk-paiming" id="fk2">
+            </div>
+            <div class="fk-bingtu">
+                <div class="fk-bingtu-tu" id="fk-bingtu-tu"></div>
+                <div class="fk-bingtu-key" id="fk3">
+                    <table style="height: 100%;font-size: 1vw;" border="0" cellspacing="10px" cellpadding="0">
+                        <tr>
+                            <td>总反馈量：</td>
+                            <td id='zongfankui'></td>
+                        </tr>
+                        <tr>
+                            <td>已解决反馈量：</td>
+                            <td id='yijiejue'>Data</td>
+                        </tr>
+                        <tr>
+                            <td>已解决反馈占比：</td>
+                            <td id='yijiejuev'>Data</td>
+                        </tr>
+                        <tr>
+                            <td>未解决反馈量：</td>
+                            <td id='weijiejue'>Data</td>
+                        </tr>
+                        <tr>
+                            <td>未解决反馈占比：</td>
+                            <td id='weijiejuev'>Data</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="fk-content">
+            <div class="fk-paiming" id="fk_number">
+            </div>
+            <div class="fk-bingtu">
+                <div class="fk-bingtu-tu" id="fk-xsfk"></div>
+                <div class="fk-bingtu-key" id="fk1">
+                </div>
+            </div>
+        </div>
+        <div class="fk_class" id='fk_class'></div>
+    </div>
+    <script type="text/javascript">
+
+        /* 反馈处理率全区排名已解决 */
+        $.ajax({
+            url: uri + "Fankuileader",
+            data: {
+                zhenId: 0,
+                time: timeDuan
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 5000,//超时时间设置为10秒；
+            success: function (data) {
+                //console.log("全区反馈率排名");
+                //console.log(data);
+                var fankuidata = [];
+                for (var i = 0; i < data.data.length; i++) {
+                    var cll = 0;
+                    var num = parseFloat(data.data[i].ycl);
+                    var total = parseFloat(data.data[i].total);
+                    if (total <= 0 || num <= 0) {
+                        cll = 0;
+                    } else {
+                        cll = Math.round(num / total * 100);
+                    }
+                    var item = [data.data[i].name, data.data[i].ycl, data.data[i].wcl, data.data[i].total, cll];
+                    fankuidata[i] = item;
+                }
+                for (var i = 0; i < fankuidata.length; i++) {
+                    for (var j = i + 1; j < fankuidata.length; j++) {
+                        if (fankuidata[i][4] < fankuidata[j][4]) {
+                            temp = fankuidata[j];
+                            fankuidata[j] = fankuidata[i];
+                            fankuidata[i] = temp;
+                        }
+                    }
+                }
+                var str = "<h4>该时间段内反馈处理率地区排名</h4>";
+                str += "<p class='a6'><span>排名</span><span>区域名</span><span>已处理</span><span>未处理</span><span>总反馈量</span><span>处理率</span></p>";
+
+                for (var i = 0; i < fankuidata.length; i++) {
+                    str += "<a class='a6'><span>" + (i + 1) + "</span><span>" + fankuidata[i][0] + "</span><span>" + fankuidata[i][1] + "</span><span>" + fankuidata[i][2] + "</span><span>" + fankuidata[i][3] + "</span><span>" + fankuidata[i][4] + "%</span></a>";
+
+                }
+                document.getElementById("fk2").innerHTML = str;
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+        //反馈饼图已解决
+        $.ajax({
+            url: uri + "qubingtu",
+            data: {
+                time: timeDuan
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 5000,//超时时间设置为5秒；
+            success: function (message) {
+                document.getElementById("zongfankui").innerHTML = message.data.zongfankui + "条";
+                document.getElementById("yijiejue").innerHTML = message.data.yichuli + "条";
+                document.getElementById("yijiejuev").innerHTML = message.data.yichulilv;
+                document.getElementById("weijiejue").innerHTML = message.data.weichuli + "条";
+                document.getElementById("weijiejuev").innerHTML = message.data.weichulilv;
+                fkoption1 = {
+                    title: {
+                        text: '该时间段内反馈饼图',
+                        left: 'left',
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '条数',
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '20',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [
+                                {value: message.data.yichuli, name: '已解决反馈'},
+                                {value: message.data.weichuli, name: '未解决反馈'}
+                            ]
+                        }
+                    ]
+                };
+                var fkChart1 = echarts.init(document.getElementById('fk-bingtu-tu'), 'dark');
+                fkChart1.setOption(fkoption1);
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        //反馈类别柱状图已解决ok
+        $.ajax({
+            url: uri + "typelist",
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                //console.log("反馈类别");
+                //console.log(data);
+                var gktypes = [];
+                gktypes[0] = "类别";
+                for (var i = 1; i <= data.data.length; i++) {
+                    gktypes[i] = data.data[i - 1].bType;
+                }
+                $.ajax({
+                    url: uri + "qulx",
+                    data: {
+                        zhenId: 0,
+                        time: timeDuan
+                    },
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'post',//HTTP请求类型
+                    timeout: 10000,//超时时间设置为10秒；
+                    success: function (message) {
+                        //console.log("反馈类别柱状图");
+                        //console.log(message);
+                        var fkztdatas = [];
+                        for (var i = 0; i < message.data.length; i++) {
+                            var name = message.data[i].name;
+                            var item = [];
+                            item[0] = name;
+                            for (var j = 1; j < gktypes.length; j++) {
+                                var type = gktypes[j];
+                                item[j] = message.data[i][type];
+                            }
+                            //console.log(item);
+                            fkztdatas[i] = item;
+                        }
+                        fkoption2 = {
+                            title: {
+                                text: '该时间段内反馈类别柱状图（单位：条）',
+                                left: 'left',
+                                top: 20,
+                                textStyle: {
+                                    color: '#ccc'
+                                }
+                            },
+                            legend: {},
+                            tooltip: {},
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {}
+                                }
+                            },
+                            dataset: {
+                                source: [
+                                    gktypes,
+                                    fkztdatas[0],
+                                    fkztdatas[1],
+                                    fkztdatas[2],
+                                    fkztdatas[3],
+                                    fkztdatas[4],
+                                    fkztdatas[5],
+                                    fkztdatas[6],
+                                    fkztdatas[7]
+                                ]
+                            },
+                            xAxis: {type: 'category'},
+                            yAxis: {},
+                            series: [
+                                {type: 'bar'},
+                                {type: 'bar'},
+                                {type: 'bar'}
+                            ]
+                        };
+                        var fkChart2 = echarts.init(document.getElementById('fk_class'), 'dark');
+                        fkChart2.setOption(fkoption2);
+                    },
+                    error: function (xhr, type, errorThrown) {
+
+                    }
+                });
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+
+        ////反馈向上ok
+        $.ajax({
+            url: uri + "upregion",
+            data: {
+                time: timeDuan
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 5000,//超时时间设置为5秒；
+            success: function (message) {
+                //console.log("向上反馈");
+                //console.log(message);
+                var str = " <table style='height: 100%;font-size: 1vw;' border='0' cellspacing='10px' cellpadding='0'>"
+                str += "<tr><td>总反馈量：</td><td>" + message.zongfankui + "条</td></tr>";
+                str += "<tr><td>已处理反馈量：</td><td>" + message.yichuli + "条</td></tr>";
+                str += "<tr><td>已处理反馈率：</td><td>" + message.yichulilv + "</td></tr>";
+                str += "<tr><td>未处理反馈量：</td><td>" + message.weichuli + "条</td></tr>";
+                str += "<tr><td>未处理反馈率：</td><td>" + message.weichulilv + "</td></tr>";
+                str += "</table>";
+                document.getElementById("fk1").innerHTML = str;
+                fkoption1 = {
+                    title: {
+                        text: '向上反馈饼图',
+                        left: 'left',
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name: '条数',
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '20',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [
+                                {value: message.yichuli, name: '已解决反馈'},
+                                {value: message.weichuli, name: '未解决反馈'}
+                            ]
+                        }
+                    ]
+                };
+                var fkChart1 = echarts.init(document.getElementById('fk-xsfk'), 'dark');
+                fkChart1.setOption(fkoption1);
+
+            },
+            error: function (xhr, type, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+        //反馈数量曲线图ok
+        $.ajax({
+            url: uri + "quzhexian",
+            data: {
+                zhenId: 0
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (message) {
+                //console.log("全区反馈数量曲线图（单位：条）");
+                //console.log(message);
+                var data = message.data;
+                //console.log(data);
+                var legenddata = [];
+                for (var i = 0; i < 8; i++) {
+                    //console.log(data[i].name);
+                    legenddata[i] = data[i].name;
+                }
+                var xAxisdata = [];
+                var date = new Date();
+                var year = date.getFullYear();
+                var seriesdata = [];
+                for (var i = 2012; i <= year; i++) {
+                    xAxisdata[i - 2012] = i;
+                }
+                var years = xAxisdata.length;
+
+                for (var i = 0; i < 8; i++) {
+                    var seriesdataitem = [];
+                    var thedata = data[i].time;
+                    if (thedata == undefined) {
+                        for (var j = 0; j < years; j++) {
+                            seriesdataitem[j] = 0;
+                        }
+                    }
+                    if (thedata != undefined) {
+                        //console.log(thedata);
+                        for (var j = 0; j < years; j++) {
+                            seriesdataitem[j] = thedata[j].total;
+                        }
+                    }
+                    //console.log(seriesdataitem);
+                    seriesdata[i] = seriesdataitem;
+                }
+                //console.log(seriesdata);
+                fkoption3 = {
+                    title: {
+                        text: '近年来该区各镇反馈数量变化折线图（单位：条）',
+                        top: 20,
+                        textStyle: {
+                            color: '#ccc'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: legenddata,
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right: 10,
+                        top: 20,
+                        bottom: 20,
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '100',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        },
+                        top: 0,
+                        right: 100
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: xAxisdata,
+                        nameTextStyle: {
+                            color: '#ccc',
+                            borderColor: '#ccc',
+                        }
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name: legenddata[0],
+                            type: 'line',
+                            data: seriesdata[0]
+                        },
+                        {
+                            name: legenddata[1],
+                            type: 'line',
+                            data: seriesdata[1]
+                        },
+                        {
+                            name: legenddata[2],
+                            type: 'line',
+                            data: seriesdata[2]
+                        },
+                        {
+                            name: legenddata[3],
+                            type: 'line',
+                            data: seriesdata[3]
+                        },
+                        {
+                            name: legenddata[4],
+                            type: 'line',
+                            data: seriesdata[4]
+                        },
+                        {
+                            name: legenddata[5],
+                            type: 'line',
+                            data: seriesdata[5]
+                        },
+                        {
+                            name: legenddata[6],
+                            type: 'line',
+                            data: seriesdata[6]
+                        },
+                        {
+                            name: legenddata[7],
+                            type: 'line',
+                            data: seriesdata[7]
+                        }
+                    ]
+                };
+                var fkChart3 = echarts.init(document.getElementById('fk_number'), 'dark');
+                fkChart3.setOption(fkoption3);
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+
+    </script>
+
+    <!-- 法规 -->
+    <div class="swiper-slide" id="fg">
+        <div class="fk-content">
+            <div class="dy-bingtu">
+                <h4>全国政策条目：<span id="fg_zc1"></span></h4>
+                <p class="a3"><span>政策</span><span>时间</span><span>级别</span></p>
+                <div class=" content_body" id="fg1">
+                </div>
+            </div>
+            <div class="dy-bingtu" style="margin-left: 0;">
+                <h4>全国法规条目：<span id="fg_fl1"></span></h4>
+                <p class='a3'><span>法规</span><span>时间</span><span>级别</span></p>
+                <div class=" content_body" id="fg2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var fllength = 0;
+        var zclength = 0;
+        $.ajax({
+            url: uri + "queryPolicy",
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 5000,//超时时间设置为5秒；
+            success: function (message) {
+                //console.log("政策");
+                //console.log(message);
+                var t1 = message.国家级政策.length;
+                var t2 = message.市区级政策.length;
+                var t3 = message.省厅级政策.length;
+                var t4 = message.镇村级政策.length;
+                zclength = message.数量;
+                document.getElementById("fg_zc1").innerHTML = zclength + "条";
+                var str = "";
+                for (var i = 0; i < t1; i++) {
+                    var name = "" + message.国家级政策[i].pName;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.国家级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.国家级政策[i].pDatetime + "</span><span>国家级</span></a>"
+                }
+                for (var i = 0; i < t2; i++) {
+                    var name = "" + message.市区级政策[i].pName;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.市区级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.市区级政策[i].pDatetime + "</span><span>市区级</span></a>"
+
+                }
+                for (var i = 0; i < t3; i++) {
+                    var name = "" + message.省厅级政策[i].pName;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.省厅级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.省厅级政策[i].pDatetime + "</span><span>省厅级</span></a>"
+
+                }
+                for (var i = 0; i < t4; i++) {
+                    var name = "" + message.镇村级政策[i].pName;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.镇村级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.镇村级政策[i].pDatetime + "</span><span>镇村级</span></a>"
+                }
+                document.getElementById("fg1").innerHTML = str;
+                $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+                $.mCustomScrollbar.defaults.axis = "yx";
+                $("#fg1").mCustomScrollbar({theme: "minimal"});
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+        $.ajax({
+            url: uri + "queryLeaderLaw",
+            data: {
+                zhen_name: ""
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 5000,//超时时间设置为5秒；
+            success: function (message) {
+                //console.log("法律");
+                //console.log(message);
+                var t1 = message.CountryLaw.length;
+                var t2 = message.cityLaw.length;
+                var t3 = message.provinceLaw.length;
+                var t4 = message.townLaw.length;
+                fllength = message.lawNumber;
+                document.getElementById("fg_fl1").innerHTML = fllength + "条";
+                var str = "";
+                for (var i = 0; i < t1; i++) {
+                    var name = "" + message.CountryLaw[i].lTitle;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.CountryLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.CountryLaw[i].lPubdate + "</span><span>国家级</span></a>"
+                }
+                for (var i = 0; i < t2; i++) {
+                    var name = "" + message.cityLaw[i].lTitle;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.cityLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.cityLaw[i].lPubdate + "</span><span>市区级</span></a>"
+
+                }
+                for (var i = 0; i < t3; i++) {
+                    var name = "" + message.provinceLaw[i].lTitle;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.provinceLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.provinceLaw[i].lPubdate + "</span><span>省厅级</span></a>"
+
+                }
+                for (var i = 0; i < t4; i++) {
+                    var name = "" + message.townLaw[i].lTitle;
+                    var name1 = "";
+                    if (name.length > 15) {
+                        name1 = name.substring(0, 10) + "......";
+                    } else {
+                        name1 = name;
+                    }
+                    str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.townLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.townLaw[i].lPubdate + "</span><span>镇村级</span></a>"
+                }
+                document.getElementById("fg2").innerHTML = str;
+                $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+                $.mCustomScrollbar.defaults.axis = "yx";
+                $("#fg2").mCustomScrollbar({theme: "minimal"});
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+
+        function getwenjian(it) {
+            var id = it.id + "";
+            var type = id.substring(0, 2);
+            var trueid = id.substr(2);
+            if (type == "fg") {
+                //法规
+            }
+            if (type == "zc") {
+                //政策
+            }
+        }
+    </script>
+
+</div>
+<script>
+    var as = $("#menu a");
+    var fk1 = document.getElementById("fk1");
+    var fk2 = document.getElementById("fk2");
+    var fk3 = document.getElementById("fk3");
+    var fk4 = document.getElementById("fk-bingtu-tu");
+    var fk5 = document.getElementById("fk_class");
+    var fk6 = document.getElementById("fk_number");
+    var dw1 = document.getElementById("dw1");
+    var dw2 = document.getElementById("dy-bingtu");
+    var dw3 = document.getElementById("dw2");
+    var cw1 = document.getElementById("cw1");
+    var cw2 = document.getElementById("cw2");
+    var zj1 = document.getElementById("zj_shouru1");
+    var zj2 = document.getElementById("zj_shouru2");
+    var zj3 = document.getElementById("zj_zhichu1");
+    var zj4 = document.getElementById("zj_zhichu2");
+    var zj5 = document.getElementById("zj1");
+    var zj6 = document.getElementById("zj2");
+    var zc = document.getElementById("zc");
+    var zy = document.getElementById("zy");
+    var fg1 = document.getElementById("fg1");
+    var fg2 = document.getElementById("fg2");
+
+    function changmenu(it) {
+        var aactive = $("a[class='active']")[0];
+        aactive.classList.remove("active");
+        it.className = "active";
+    }
+
+    $(document).mouseover(function (e) {
+        var domobj = e.target;
+        if (domobj == fk1 || domobj == fk2 || domobj == fk3 || domobj == fk4 || domobj == fk5 || domobj == fk6) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[3].className = "active";
+        }
+        if (domobj == dw1 || domobj == dw2 || domobj == dw3) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[1].className = "active";
+        }
+        if (domobj == cw1 || domobj == cw2) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[2].className = "active";
+        }
+        if (domobj == zj1 || domobj == zj2 || domobj == zj3 || domobj == zj4 || domobj == zj5 || domobj == zj6) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[0].className = "active";
+        }
+        if (domobj == fg1 || domobj == fg2) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[4].className = "active";
+        }
+    })
+
+    function gotoindex(it) {
+        switch (it.id) {
+            case 'fkq1':
+                tiaozhuan1("qy2");
+                break;
+            case 'fkq2':
+                tiaozhuan1("qy3");
+                break;
+            case 'fkq3':
+                tiaozhuan1("qy4");
+                break;
+            case 'fkq4':
+                tiaozhuan1("qy5");
+                break;
+            case 'fkq5':
+                tiaozhuan1("qy6");
+                break;
+            case 'fkq6':
+                tiaozhuan1("qy7");
+                break;
+            case 'fkq7':
+                tiaozhuan1("qy8");
+                break;
+            case 'fkq8':
+                tiaozhuan1("qy9");
+                break;
+        }
+    }
+
+    function tiaozhuan1(it) {
+        var activeindex = window.parent.document.getElementsByClassName("active")[0];
+        activeindex.classList.remove("active");
+        window.parent.document.getElementById(it).className = "active";
+    }
+</script>
+</body>
+</html>

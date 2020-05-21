@@ -1,0 +1,97 @@
+#datacontent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: none;
+}
+
+.data-body {
+    position: relative;
+    width: 440px;
+    height: auto;
+    left: 50%;
+    top: 40%;
+    font-size: 16px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 10px #444444;
+    background-color: #555555;
+    border: 1px solid black;
+    z-index: 100;
+    text-align: -moz-center;
+    text-align: center;
+    text-align: -webkit-center;
+}
+
+.data-content {
+    position: relative;
+    width: 100%;
+}
+
+.data-content .data-start, .data-content .data-end {
+    position: relative;
+    text-align: -moz-center;
+    text-align: center;
+    text-align: -webkit-center;
+    width: 200px;
+    display: inline-block;
+    color: #CCCCCC;
+    margin: 10px;
+
+}
+
+#startyear, #endyear {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+#selected {
+    color: white;
+}
+
+.data-content .data-start span, .data-content .data-end span {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: black;
+    text-align: -moz-center;
+    text-align: center;
+    text-align: -webkit-center;
+    line-height: 40px;
+    margin: 5px;
+    color: #555555;
+}
+
+.dataactive {
+    color: white !important;
+}
+
+.data-header {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.data-header .data-ok {
+    position: relative;
+    float: right;
+    top: 15px;
+    border-radius: 8px;
+    padding: 0 10px;
+    right: 1rem;
+    border: none;
+    background-color: black;
+    height: 30px;
+    color: white;
+    line-height: 30px;
+}
+
+#syear, #smouth, #eyear, #emouth {
+    display: inline-block;
+}

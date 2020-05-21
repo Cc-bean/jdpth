@@ -1,0 +1,309 @@
+@charset "utf-8";
+/* CSS Document */
+a, button, input, select {
+    outline: none;
+}
+
+select {
+    position: relative;
+    background-color: black;
+    border: none;
+    color: white;
+    margin-bottom: 5px;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    padding-left: 10px;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-size: 1vw;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.active {
+    color: white !important;
+    box-shadow: 0px 0px 4px white;
+}
+
+.content-left {
+    position: relative;
+    width: 94%;
+    height: auto;
+    left: 0;
+    color: #CCCCCC;
+}
+
+.content-right {
+    position: fixed;
+    margin-top: 4vh;
+    right: 0;
+    width: 6%;
+    height: 100%;
+    line-height: 100%;
+    z-index: 10;
+}
+
+.content-right a {
+    position: relative;
+    display: block;
+    width: 10vh;
+    height: 10vh;
+    line-height: 10vh;
+    border-radius: 5vh;
+    -moz-border-radius: 5vh;
+    -webkit-border-radius: 5vh;
+    margin: 4vh 0;
+    text-align: center;
+    text-align: -moz-center;
+    text-align: -webkit-center;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #555555;
+}
+
+.content-right a:first-child {
+    margin-top: 6vh;
+}
+
+.content-right a:hover {
+    color: white !important;
+    box-shadow: 0px 0px 4px white;
+}
+
+.swiper-slide {
+    position: relative;
+    width: 100%;
+    display: block;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.3);
+}
+
+h4 {
+    position: relative;
+    margin: 0 1%;
+    height: 30px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.fk-content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    height: auto;
+}
+
+.fk-content .fk-paiming, .fk-content .fk-bingtu {
+    position: relative;
+    width: 47%;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    margin: 1% 0% 1% 1%;
+    padding: 10px;
+    height: 300px;
+    display: inline-block;
+}
+
+.fk-content .dy-paiming, .fk-content .dy-bingtu {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    margin: 1%;
+    padding: 10px;
+    display: inline-block;
+}
+
+.dy-paiming {
+    width: 30%;
+}
+
+.dy-bingtu {
+    width: 68%;
+}
+
+.fk-paiming table, .dy-paiming table, .dy-bingtu table {
+    position: relative;
+    width: 100%;
+}
+
+.fk-paiming table td, .dy-paiming table td, .dy-bingtu table td {
+    position: relative;
+    height: 30px;
+    font-size: 1vw;
+}
+
+.fk-bingtu .fk-bingtu-tu, .fk-bingtu .fk-bingtu-key {
+    position: relative;
+    float: left;
+    display: inline-block;
+    height: 100%;
+}
+
+.fk-bingtu-tu {
+    width: 60%;
+}
+
+.fk-bingtu-key {
+    width: 40%;
+}
+
+.fk_class {
+    position: relative;
+    margin: 0 1% 0 1%;
+    border-radius: 10px;
+    height: 300px;
+    margin-bottom: 1%;
+    overflow: hidden;
+}
+
+#fg1, #fg2 {
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.fk-content .content_body {
+    position: relative;
+    width: 100%;
+}
+
+a span, p span {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.fk-content a {
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5%;
+    cursor: pointer;
+}
+
+.fk-content p {
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5%;
+}
+
+.fk-content a:hover, .fk-content a:active {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    font-size: 1vw;
+    color: white !important;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5%;
+    cursor: pointer;
+}
+
+.visited {
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.4);
+
+}
+
+.a1 {
+    position: relative;
+    width: 100%;
+}
+
+.a33 span {
+    position: relative;
+    display: inline-block;
+    width: 33.3%;
+}
+
+.a3 span:first-child, .a3 span:nth-child(2) {
+    position: relative;
+    display: inline-block;
+    width: 45%;
+}
+
+.a3 span:last-child {
+    position: relative;
+    display: inline-block;
+    width: 10%;
+}
+
+.a2 span {
+    position: relative;
+    display: inline-block;
+    width: 50%;
+}
+
+.a6 span {
+    position: relative;
+    display: inline-block;
+    width: 16.5%;
+}
+
+.a5 span {
+    position: relative;
+    display: inline-block;
+    width: 20%;
+}
+
+p a {
+    position: relative;
+    width: 100%;
+}
+
+.fk-content .tianmuitem {
+    position: relative;
+    width: 100%;
+}
+
+.tanchukuang {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    margin: auto;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background: transparent;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.tanchukuang table {
+    position: absolute;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    box-shadow: 0px 0px 10px #CCCCCC;
+    left: 50%;
+    width: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 60vh;
+    overflow: scroll;
+    padding: 10px;
+}
+
+.tanchukuang table td {
+    position: relative;
+
+    height: 30px;
+    line-height: 30px;
+}

@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>普通</title>
+</head>
+<link href="/static/css/all.css" rel="stylesheet"/>
+<link href="/static/css/jquery.mCustomScrollbar.css" rel="stylesheet"/>
+<script src="/static/js/jquery-1.11.0.min.js"></script>
+<script src="/static/js/echarts.common.min.js"></script>
+<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/static/js/dark.js"></script>
+<script src="/static/js/uri.js"></script>
+<style>
+    #zj_zs {
+        height: 80vh;
+    }
+
+    #zj1, #zj2, #dw1, #dw2, #dw3, #dw4, #dw5, #dw6 {
+        height: 80vh;
+        overflow-y: scroll;
+    }
+
+    #cw1, #fk3, #fk4 {
+        height: 60vh;
+        overflow-y: scroll;
+    }
+
+</style>
+<body>
+<!-- 法规弹出框 -->
+<div class="tanchukuang" id="fagui" onclick="hidenit(this)">
+
+</div>
+<!-- 党员，等弹出框 -->
+<div class="tanchukuang" id="dwd" onclick="hidenit(this)">
+    <table border="0" cellspacing="0" cellpadding="0" id="dwd_content">
+    </table>
+</div>
+<!-- 活动，等弹出框 -->
+<div class="tanchukuang" id="hdd" onclick="hidenit(this)">
+
+</div>
+<div class="content-right" id="menu">
+    <a class="active" onclick="changmenu(this)" href="#zj">资金</a>
+    <a onclick="changmenu(this)" href="#dw">党务</a>
+    <a onclick="changmenu(this)" href="#cw">村务</a>
+    <a onclick="changmenu(this)" href="#fk">反馈</a>
+    <a onclick="changmenu(this)" href="#fg">法规</a>
+</div>
+<div class="content-left">
+    <!-- 资金 -->
+    <div class="swiper-slide" id="zj">
+        <div class="fk-content">
+            <div class="dy-bingtu" id="zj_zs" style="width: 60%;"></div>
+            <div class="dy-bingtu" style="width: 36%;margin-left: 0;margin-right: 0 ;" id="zj1">
+                <select id="zj_select">
+
+                </select>
+                <table style="width: 98%;margin-left: 1%;" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                    <tr>
+                        <td><a>xxxxx收入</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 党务 -->
+    <div class="swiper-slide">
+        <div class="fk-content" id="dw">
+            <div class="dy-bingtu" id="dw1">
+                <select id="dwhd_cunlist">
+                    <option value="">xx村该时间段内党员组织活动列表</option>
+                </select>
+                <div class="content_body" id='dyhdlist'>
+                    <a class='a1'>活动1</a>
+                </div>
+            </div>
+            <div class="dy-bingtu" style="margin-left: 0;margin-right: 0;" id="dw2">
+                <select id="dwzs_cunlist">
+                    <option value="">xx村该时间段内正式党员列表</option>
+                </select>
+                <div class=content_body id='zsdylist'>
+                </div>
+            </div>
+            <div class="dy-bingtu" style="margin-left: 1%;margin-right: 0;" id="dw3">
+                <select id="dwjj_cunlist">
+                    <option value="">xx该时间段内积极分子列表</option>
+                </select>
+                <div class=content_body id='jjfzlist'>
+                </div>
+            </div>
+            <div class="dy-bingtu" style="margin-left: 1%;margin-right: 0;" id="dw4">
+                <select id="dwfz_cunlist">
+                    <option value="">xx该时间段内发展对象列表</option>
+                </select>
+                <div class=content_body id='fzdxlist'>
+                </div>
+            </div>
+            <div class="dy-bingtu" style="margin-left: 1%;margin-right: 0;" id="dw5">
+                <select id="dwyb_cunlist">
+                    <option value="">xx该时间段内预备党员列表</option>
+                </select>
+                <div class=content_body id='ybdylist'>
+                </div>
+            </div>
+        </div>
+        <div class="fk_class" id='dy-bingtu'>
+
+        </div>
+    </div>
+
+    <!-- 村务 -->
+    <div class="swiper-slide" id="cw">
+        <div class="fk-content">
+            <div class="dy-bingtu" style="width: 30%;margin-right: 0;">
+                <select id="cun_huodong">
+                    <option value="">xx该时间段内村内活动列表</option>
+                    <option value="">xx该时间段内村内活动列表</option>
+                </select>
+                <div class="content_body" id="cw1">
+
+                </div>
+            </div>
+            <div class="dy-bingtu" style="width: 64%;">
+                <select id="cun_zhexian">
+                    <option value="">该时间段内xx村活动数量折线图</option>
+                    <option value="">xx该时间段内村内活动列表</option>
+                </select>
+                <div style="position: relative;width: 100%;height:90%;" id='cw2'>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 反馈 -->
+    <div class="swiper-slide" id="fk">
+        <div class="fk-content">
+            <div class="fk-bingtu">
+                <div class="fk-bingtu-tu" id="fk-bingtu-tu"></div>
+                <div class="fk-bingtu-key" id="fk1">
+                    <table style="height: 100%;font-size: 1vw;" border="0" cellspacing="10px" cellpadding="0"
+                           id="zhenfkyw">
+                    </table>
+                </div>
+            </div>
+            <!-- 反馈类别占比图 -->
+            <div class="fk-bingtu">
+                <div class="fk-bingtu-tu" id="fk_class"></div>
+                <div class="fk-bingtu-key" id="fk2">
+                    <table style="height: 100%;font-size: 1vw;" border="0" cellspacing="10px" cellpadding="0"
+                           id="fk_lx">
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="fk-content">
+            <div class="dy-bingtu" id="fk3" style="width: 20%; margin-right: 0;">
+                <h4>该镇此时间段内已处理反馈列表</h4>
+                <table id='fk_ycl' style="width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                </table>
+            </div>
+            <div class="dy-bingtu" id="fk4" style="width: 20%;margin-right: 0;">
+                <h4>该镇此时间段内未处理反馈列表</h4>
+                <table id='fk_wcl' style="width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                </table>
+            </div>
+            <div class="fk-paiming" style="width: 51%;height: 60vh;" id='fk_number'></div>
+        </div>
+    </div>
+
+    <!-- 法规 -->
+    <div class="swiper-slide" id="fg">
+        <div class="fk-content">
+            <div class="dy-paiming" style="width: 46%;">
+                <h4>全国政策条目：<span id="fg_zc2"></span></h4>
+                <p class="a3"><span>政策</span><span>时间</span><span>级别</span></p>
+                <div class=" content_body" id="fg1">
+                </div>
+            </div>
+            <div class="dy-bingtu" style="width: 46%;">
+                <h4>全国法规条目：<span id="fg_fl2"></span></h4>
+                <p class='a3'><span>法规</span><span>时间</span><span>级别</span></p>
+                <div class=" content_body" id="fg2">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<script>
+    var as = $("#menu a");
+    var fk1 = document.getElementById("fk1");
+    var fk2 = document.getElementById("fk2");
+    var fk3 = document.getElementById("fk3");
+    var fk4 = document.getElementById("fk-bingtu-tu");
+    var fk5 = document.getElementById("fk_class");
+    var fk6 = document.getElementById("fk_number");
+    var fk7 = document.getElementById("fk4");
+    var dw1 = document.getElementById("dw1");
+    var dw2 = document.getElementById("dy-bingtu");
+    var dw3 = document.getElementById("dw2");
+    var dw4 = document.getElementById("dw3");
+    var dw5 = document.getElementById("dw4");
+    var dw6 = document.getElementById("dw5");
+    var cw1 = document.getElementById("cw1");
+    var cw2 = document.getElementById("cw2");
+    var zj1 = document.getElementById("zj_zs");
+    var zj2 = document.getElementById("zj1");
+    var zj3 = document.getElementById("zj2");
+    var fg1 = document.getElementById("fg1");
+    var fg2 = document.getElementById("fg2");
+
+    function changmenu(it) {
+        var aactive = $("a[class='active']")[0];
+        aactive.classList.remove("active");
+        it.className = "active";
+    }
+
+    $(document).mouseover(function (e) {
+        var domobj = e.target;
+        if (domobj == fk1 || domobj == fk2 || domobj == fk3 || domobj == fk4 || domobj == fk5 || domobj == fk6 || domobj == fk7) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[3].className = "active";
+        }
+        if (domobj == dw1 || domobj == dw2 || domobj == dw3 || domobj == dw4 || domobj == dw5 || domobj == dw6) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[1].className = "active";
+        }
+        if (domobj == cw1 || domobj == cw2) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[2].className = "active";
+        }
+        if (domobj == zj1 || domobj == zj2 || domobj == zj3) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[0].className = "active";
+        }
+        if (domobj == fg1 || domobj == fg2) {
+            for (var i = 0; i < as.length; i++) {
+                as[i].className = "";
+            }
+            as[4].className = "active";
+        }
+    })
+    $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+    $.mCustomScrollbar.defaults.axis = "yx";
+    $("#dw1").mCustomScrollbar({theme: "minimal"});
+    $("#dw2").mCustomScrollbar({theme: "minimal"});
+    $("#dw3").mCustomScrollbar({theme: "minimal"});
+    $("#dw4").mCustomScrollbar({theme: "minimal"});
+    $("#dw5").mCustomScrollbar({theme: "minimal"});
+    $("#dw6").mCustomScrollbar({theme: "minimal"});
+    $("#cw1").mCustomScrollbar({theme: "minimal"});
+    $("#zj_zs").mCustomScrollbar({theme: "minimal"});
+    $("#zj1").mCustomScrollbar({theme: "minimal"});
+    $("#zj2").mCustomScrollbar({theme: "minimal"});
+    $("#fk3").mCustomScrollbar({theme: "minimal"});
+    $("#fk4").mCustomScrollbar({theme: "minimal"});
+</script>
+<script type="text/javascript">
+    zhenId = window.parent.zhenId;
+    //alert(zhenId);
+    timeDuan = window.parent.mydata.value;
+    //alert(timeDuan);
+    var cunlist = [];
+    $.ajax({
+        url: uri + "cun_List",
+        data: {
+            zhenId: zhenId
+        },
+        dataType: 'json',//服务器返回json格式数据
+        type: 'post',//HTTP请求类型
+        timeout: 10000,//超时时间设置为10秒；
+        success: function (data) {
+            for (var i = 0; i < data.data.length; i++) {
+                var cunitem = [];
+                cunitem = [data.data[i].villageId, data.data[i].vName];
+                cunlist[i] = cunitem;
+            }
+
+
+            //资金
+            var zjselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                zjselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "该时间段内资金收支列表</option>"
+            }
+            document.getElementById("zj_select").innerHTML = zjselect;
+            zjoption1 = {
+                title: {
+                    text: '该时间段内该地区收入支出折线图',
+                    top: 20,
+                    textStyle: {
+                        color: '#ccc'
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['收入', '支出']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    nameTextStyle: {
+                        color: '#ccc',
+                        borderColor: '#ccc',
+                    }
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '收入',
+                        type: 'line',
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: '支出',
+                        type: 'line',
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                ]
+            };
+            var zjChart1 = echarts.init(document.getElementById('zj_zs'), 'dark');
+            zjChart1.setOption(zjoption1);
+
+            //党务
+
+            //党员活动
+            var dyzhselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                dyzhselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "党员组织活动列表</option>"
+            }
+            document.getElementById("dwhd_cunlist").innerHTML = dyzhselect;
+
+            var dyhdcunid = cunlist[0][0];
+            console.log(dyhdcunid);
+            var dhstime = timeDuan.substring(0, 10);
+            var dhetime = timeDuan.substring(11);
+            //alert(startTime+stopTime);
+            $.ajax({
+                utl: uri + "ZuzhihuodongGetAAll",
+                data: {
+                    mRegion: 1349,
+                    mZhenid: zhenId,
+                    mVillageid: dyhdcunid,
+                    startTime: dhstime,
+                    stopTime: dhetime
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (data) {
+                    console.log("村党员活动");
+                    console.log(data);
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+
+            var dyzsselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                dyzsselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "正式党员列表</option>"
+            }
+            document.getElementById("dwzs_cunlist").innerHTML = dyzsselect;
+            var dyjjselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                dyjjselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "积极份子列表</option>"
+            }
+            document.getElementById("dwjj_cunlist").innerHTML = dyjjselect;
+            var dyfzselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                dyfzselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "发展对象列表</option>"
+            }
+            document.getElementById("dwfz_cunlist").innerHTML = dyfzselect;
+            var dyybselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                dyybselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "预备党员列表</option>"
+            }
+            document.getElementById("dwyb_cunlist").innerHTML = dyybselect;
+            var dycunid = cunlist[0][0];
+            var zsdylist = document.getElementById("zsdylist");
+            document.getElementById("dwzs_cunlist").addEventListener("change", function () {
+                var cunid = document.getElementById("dwzs_cunlist").value;
+                getdyitemlist(cunid, 4, zsdylist);
+            })
+            var jjfzlist = document.getElementById("jjfzlist");
+            document.getElementById("dwjj_cunlist").addEventListener("change", function () {
+                var cunid = document.getElementById("dwjj_cunlist").value;
+                getdyitemlist(cunid, 1, jjfzlist);
+            })
+            var fzdxlist = document.getElementById("fzdxlist");
+            document.getElementById("dwfz_cunlist").addEventListener("change", function () {
+                var cunid = document.getElementById("dwfz_cunlist").value;
+                getdyitemlist(cunid, 2, fzdxlist);
+            })
+            var ybdylist = document.getElementById("ybdylist");
+            document.getElementById("dwyb_cunlist").addEventListener("change", function () {
+                var cunid = document.getElementById("dwyb_cunlist").value;
+                getdyitemlist(cunid, 3, ybdylist);
+            })
+            getdyitemlist(dycunid, 1, jjfzlist);
+            getdyitemlist(dycunid, 2, fzdxlist);
+            getdyitemlist(dycunid, 3, ybdylist);
+            getdyitemlist(dycunid, 4, zsdylist);
+
+            function getdyitemlist(cunid, type, dom) {
+                //console.log(cunid);
+                //console.log(type);
+                $.ajax({
+                    url: uri + "findByCun",
+                    data: {
+                        vId: cunid,
+                        time: timeDuan,
+                        entity: type
+                    },
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'post',//HTTP请求类型
+                    timeout: 10000,//超时时间设置为10秒；
+                    success: function (data) {
+                        //console.log(data);
+                        switch (dom) {
+                            case zsdylist:
+                                var str = "";
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += "<a id='zs" + data.data[i][1] + "' class='a1' onclick='getzsdyxq(this)'>" + data.data[i][0] + "</a>";
+
+                                }
+                                dom.innerHTML = str;
+                                break;
+                            case jjfzlist:
+                                var str = "";
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += "<a id='jj" + data.data[i].id + "' class='a1' onclick='getjjdyxq(this)'>" + data.data[i].name + "</a>";
+
+                                }
+                                dom.innerHTML = str;
+                                break;
+                            case fzdxlist:
+                                var str = "";
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += "<a id='fz" + data.data[i].id + "' class='a1' onclick='getfzdyxq(this)'>" + data.data[i].name + "</a>";
+
+                                }
+                                dom.innerHTML = str;
+                                break;
+                            case ybdylist:
+                                var str = "";
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += "<a id='yb" + data.data[i].id + "' class='a1' onclick='getybdyxq(this)'>" + data.data[i].name + "</a>";
+
+                                }
+                                dom.innerHTML = str;
+                                break;
+                        }
+
+                    },
+                    error: function (xhr, type, errorThrown) {
+
+                    }
+                });
+            }
+
+            //镇内积极分子等变化情况ok
+            $.ajax({
+                url: uri + "FindByZhen",
+                data: {
+                    zId: zhenId
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 5000,//超时时间设置为10秒；
+                success: function (data) {
+                    //console.log("镇折线图");
+                    //console.log(data);
+                    var xAxisdata = [];
+                    var date = new Date();
+                    var year = date.getFullYear();
+                    for (var i = 2012; i <= year; i++) {
+                        xAxisdata[i - 2012] = i + "年";
+                    }
+                    var years = xAxisdata.length;
+                    var seriesdata = [];
+                    for (var i = 0; i < 4; i++) {
+                        var seriesdataitem = [];
+                        for (var j = 0; j < years; j++) {
+                            seriesdataitem[j] = data.data[j * 4 + i];
+                        }
+                        seriesdata[i] = seriesdataitem;
+                        //console.log(seriesdataitem);
+                    }
+                    dyoption1 = {
+                        title: {
+                            text: '最新党员等数量变更折线图',
+                            top: 20,
+                            textStyle: {
+                                color: '#ccc'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: ['积极分子', '发展对象', '预备党员', '正式党员']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: xAxisdata,
+                            nameTextStyle: {
+                                color: '#ccc',
+                                borderColor: '#ccc',
+                            }
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '积极分子',
+                                type: 'line',
+                                data: seriesdata[0]
+                            },
+                            {
+                                name: '发展对象',
+                                type: 'line',
+                                data: seriesdata[1]
+                            },
+                            {
+                                name: '预备党员',
+                                type: 'line',
+                                data: seriesdata[2]
+                            },
+                            {
+                                name: '正式党员',
+                                type: 'line',
+                                data: seriesdata[3]
+                            }
+                        ]
+                    };
+                    var dyChart1 = echarts.init(document.getElementById('dy-bingtu'), 'dark');
+                    dyChart1.setOption(dyoption1);
+                },
+                error: function (xhr, type, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+
+
+            //村务
+
+            /* 村活动列表 */
+            var cunhdselect = "";
+            for (var i = 0; i < cunlist.length; i++) {
+                cunhdselect += "<option value='" + cunlist[i][0] + "'>" + cunlist[i][1] + "该时间段内村活动列表</option>";
+            }
+
+            document.getElementById("cun_huodong").innerHTML = cunhdselect;
+            var cunhdid = cunlist[0][0];
+            getcunhuodong(cunhdid);
+            document.getElementById("cun_huodong").addEventListener("change", function () {
+                cunhdid = document.getElementById("cun_huodong").value;
+                alert(cunhdid);
+                getcunhuodong(cunhdid);
+            })
+
+            /* function cunhdcg(it){
+
+				} */
+            function getcunhuodong(id) {
+                id = document.getElementById("cun_huodong").value;
+                //alert(id);
+                console.log(id);
+                $.ajax({
+                    url: uri + "chdzhen",
+                    data: {
+                        cunId: id,
+                        time: timeDuan
+                    },
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'post',//HTTP请求类型
+                    timeout: 10000,//超时时间设置为10秒；
+                    success: function (data) {
+                        //console.log("获取村活动列表");
+                        //console.log(data);
+                        var str = "<p class='a2'><span>活动名称</span><span>活动时间</span></p>";
+                        for (var i = 0; i < data.data.length; i++) {
+                            var name = data.data[i].CDYZZHD_Name + "";
+                            var truename = name;
+                            if (name.length > 10) {
+                                truename = name.substring(0, 10) + "......";
+                            }
+                            str += "<a class='a2' onclick='getcunhdxq(this)' id='chd" + data.data[i].CDYZZHD_Id + "'><span>" + truename + "</span><span>" + data.data[i].CDYZZHD_Time + "</span></a>"
+                        }
+                        document.getElementById("cw1").innerHTML = str;
+                    },
+                    error: function (xhr, type, errorThrown) {
+
+                    }
+                });
+            }
+
+            function getcunhdxq(it) {
+                var hdid = it.id + "";
+                var truehdid = hdid.substr(3);
+                $.ajax({
+                    url: uri + "huodongxiangqing/findXingqing_yp/" + truehdid,
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'get',//HTTP请求类型
+                    timeout: 10000,//超时时间设置为10秒；
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (xhr, type, errorThrown) {
+
+                    }
+                });
+            }
+
+            var selected = {};
+            var thedata = ['ch1', 'ch2', , 'ch3', 'ch4', 'ch5', 'ch6', 'ch7', 'ch8', 'ch9', 'ch10', 'ch11', 'ch12', 'ch13', 'ch14', 'ch15', 'ch16', 'ch17', 'ch18', 'ch19', 'ch20'];
+            var datashuju = [];
+            var seriesdata = [];
+
+            function dataselected(data) {
+                for (var i = 0; i < data.length; i++) {
+                    var key = thedata[i];
+                    selected[key] = i < 7;
+                }
+            }
+
+            dataselected(thedata);
+            cwoption1 = {
+                title: {
+                    text: '该村活动数量折线图',
+                    textStyle: {
+                        color: '#ccc'
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line',
+                    areaStyle: {}
+                }]
+            };
+            var cwChart1 = echarts.init(document.getElementById('cw2'), 'dark');
+            cwChart1.setOption(cwoption1);
+
+
+            //反馈
+            /* 反馈查询已处理ok */
+            $.ajax({
+                url: uri + "ycllb",
+                data: {
+                    zhenId: zhenId,
+                    time: timeDuan
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (data) {
+                    //console.log("反馈查询已处理");
+                    //console.log(data);
+                    var str = "";
+                    for (var i = 0; i < data.data.length; i++) {
+                        str += "<tr><td><a id='" + data.data[i].Feedback_Id + "' onclick='getfeedbackxq(this)'>" + data.data[i].F_Title + "</a></td></tr>"
+                    }
+                    document.getElementById("fk_ycl").innerHTML = str;
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+
+
+            /* 反馈查询未处理 ok*/
+            $.ajax({
+                url: uri + "wcllb",
+                data: {
+                    zhenId: zhenId,
+                    time: timeDuan
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (data) {
+                    //console.log("反馈查询未处理");
+                    //console.log(data);
+                    var str = "";
+                    for (var i = 0; i < data.data.length; i++) {
+                        str += "<tr><td><a id='" + data.data[i].Feedback_Id + "' onclick='getfeedbackxq(this)'>" + data.data[i].F_Title + "</a></td></tr>"
+                    }
+                    document.getElementById("fk_wcl").innerHTML = str;
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+            //反馈饼图已解决ok
+            $.ajax({
+                url: uri + "zhenbintu",
+                data: {
+                    zhenId: zhenId,
+                    time: timeDuan
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (data) {
+                    //console.log(zhenId+"镇反馈饼图");
+                    //console.log(data);
+                    fkoption1 = {
+                        title: {
+                            text: '该时间段内反馈饼图',
+                            left: 'center',
+                            textStyle: {
+                                color: '#ccc'
+                            }
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
+                        series: [
+                            {
+                                name: '条数',
+                                type: 'pie',
+                                radius: ['50%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                    normal: {
+                                        show: false,
+                                        position: 'center'
+                                    },
+                                    emphasis: {
+                                        show: true,
+                                        textStyle: {
+                                            fontSize: '20',
+                                            fontWeight: 'bold'
+                                        }
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        show: false
+                                    }
+                                },
+                                data: [
+                                    {value: data.data.yichuli, name: '已解决反馈'},
+                                    {value: data.data.weichuli, name: '未解决反馈'}
+                                ]
+                            }
+                        ]
+                    };
+                    var fkChart1 = echarts.init(document.getElementById('fk-bingtu-tu'), 'dark');
+                    fkChart1.setOption(fkoption1);
+                    var str = "";
+                    str += "<tr><td>总反馈量：</td><td>" + data.data.zongfankui + "条</td></tr>";
+                    str += "<tr><td>已处理反馈量：</td><td>" + data.data.yichuli + "条</td></tr>";
+                    str += "<tr><td>已处理反馈率：</td><td>" + data.data.yichulilv + "</td></tr>";
+                    str += "<tr><td>未处理反馈量：</td><td>" + data.data.weichuli + "条</td></tr>";
+                    str += "<tr><td>未处理反馈率：</td><td>" + data.data.weichulilv + "</td></tr>";
+                    document.getElementById("zhenfkyw").innerHTML = str;
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+            /* 反馈类型饼图 ok*/
+            $.ajax({
+                url: uri + "zhenlx",
+                data: {
+                    zhenId: zhenId,
+                    time: timeDuan
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (data) {
+                    //console.log("zhen反馈类别图");
+                    //console.log(data);
+                    var fkdatalx = [];
+                    for (var i = 0; i < data.data.length; i++) {
+                        var lxitem = {value: "", name: ""};
+                        lxitem.value = data.data[i].shuliang;
+                        lxitem.name = data.data[i].type;
+                        fkdatalx[i] = lxitem;
+                    }
+                    fkoption2 = {
+                        title: {
+                            text: '该时间段内反馈类别图',
+                            left: 'left',
+                            top: 20,
+                            textStyle: {
+                                color: '#ccc'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+
+                        visualMap: {
+                            show: false,
+                            min: 80,
+                            max: 600,
+                            inRange: {
+                                colorLightness: [0, 1]
+                            }
+                        },
+                        series: [
+                            {
+                                name: '数量',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '50%'],
+                                data: fkdatalx.sort(function (a, b) {
+                                    return a.value - b.value;
+                                }),
+                                roseType: 'radius',
+                                label: {
+                                    normal: {
+                                        textStyle: {
+                                            color: 'rgba(255, 255, 255, 0.3)'
+                                        }
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        lineStyle: {
+                                            color: 'rgba(255, 255, 255, 0.3)'
+                                        },
+                                        smooth: 0.2,
+                                        length: 10,
+                                        length2: 20
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: '#c23531',
+                                        shadowBlur: 200,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                },
+
+                                animationType: 'scale',
+                                animationEasing: 'elasticOut',
+                                animationDelay: function (idx) {
+                                    return Math.random() * 200;
+                                }
+                            }
+                        ]
+                    };
+                    var fkChart2 = echarts.init(document.getElementById('fk_class'), 'dark');
+                    fkChart2.setOption(fkoption2);
+                    var str = "<tr><td>总反馈量：</td><td>" + data.total.total + "条</td></tr>"
+                    for (var i = 0; i < fkdatalx.length; i++) {
+                        str += "<tr><td>" + fkdatalx[i].name + "：</td><td>" + fkdatalx[i].value + "条</td></tr>"
+                    }
+                    document.getElementById("fk_lx").innerHTML = str;
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+            //反馈数量曲线图ok
+            $.ajax({
+                url: uri + "zhenzhexian",
+                data: {
+                    zhenId: zhenId
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 10000,//超时时间设置为10秒；
+                success: function (data) {
+                    //console.log("镇折线图反馈");
+                    //console.log(data);
+                    var date = new Date();
+                    var year = date.getFullYear();
+                    var xAxisdata = [];
+
+                    for (var i = 2012; i <= year; i++) {
+                        xAxisdata[i - 2012] = i;
+                    }
+                    var years = xAxisdata.length;
+                    var seriesdata1 = [];
+                    var seriesdata2 = [];
+                    for (var i = 0; i < years; i++) {
+                        seriesdata1[i] = data.ycl[i].total;
+                    }
+                    for (var i = 0; i < years; i++) {
+                        seriesdata2[i] = data.wcl[i].total;
+                    }
+                    //console.log(seriesdata1);
+                    //console.log(seriesdata2);
+                    fkoption3 = {
+                        title: {
+                            text: '近年来该镇反馈数量折线图',
+                            top: 20,
+                            textStyle: {
+                                color: '#ccc'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: ['已解决', '未解决']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: xAxisdata
+                        },
+                        yAxis: {
+                            type: 'value'
+                        },
+                        series: [
+                            {
+                                name: '已解决',
+                                type: 'line',
+                                data: seriesdata1
+                            },
+                            {
+                                name: '未解决',
+                                type: 'line',
+                                data: seriesdata2
+                            },
+                        ]
+                    };
+                    var fkChart3 = echarts.init(document.getElementById('fk_number'), 'dark');
+                    fkChart3.setOption(fkoption3);
+
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+            //法规
+            var fllength = 0;
+            var zclength = 0;
+            /* 政策 */
+            $.ajax({
+                url: uri + "queryPolicy",
+                data: {
+                    zId: zhenId
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 5000,//超时时间设置为5秒；
+                success: function (message) {
+                    //console.log("政策");
+                    //console.log(message);
+                    var t1 = message.国家级政策.length;
+                    var t2 = message.市区级政策.length;
+                    var t3 = message.省厅级政策.length;
+                    var t4 = message.镇村级政策.length;
+                    zclength = message.数量;
+                    document.getElementById("fg_zc2").innerHTML = zclength + "条";
+                    var str = "";
+                    for (var i = 0; i < t1; i++) {
+                        var name = "" + message.国家级政策[i].pName;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.国家级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.国家级政策[i].pDatetime + "</span><span>国家级</span></a>"
+                    }
+                    for (var i = 0; i < t2; i++) {
+                        var name = "" + message.市区级政策[i].pName;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.市区级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.市区级政策[i].pDatetime + "</span><span>市区级</span></a>"
+
+                    }
+                    for (var i = 0; i < t3; i++) {
+                        var name = "" + message.省厅级政策[i].pName;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.省厅级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.省厅级政策[i].pDatetime + "</span><span>省厅级</span></a>"
+
+                    }
+                    for (var i = 0; i < t4; i++) {
+                        var name = "" + message.镇村级政策[i].pName;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='zc" + message.镇村级政策[i].policyId + "'><span>" + name1 + "</span><span>" + message.镇村级政策[i].pDatetime + "</span><span>镇村级</span></a>"
+                    }
+                    document.getElementById("fg1").innerHTML = str;
+                    $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+                    $.mCustomScrollbar.defaults.axis = "yx";
+                    $("#fg1").mCustomScrollbar({theme: "minimal"});
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+            /* 法规 */
+            $.ajax({
+                url: uri + "queryLeaderLaw",
+                data: {
+                    zhen_name: ""
+                },
+                dataType: 'json',//服务器返回json格式数据
+                type: 'post',//HTTP请求类型
+                timeout: 5000,//超时时间设置为5秒；
+                success: function (message) {
+                    //console.log("法律");
+                    //console.log(message);
+                    var t1 = message.CountryLaw.length;
+                    var t2 = message.cityLaw.length;
+                    var t3 = message.provinceLaw.length;
+                    var t4 = message.townLaw.length;
+                    fllength = message.lawNumber;
+                    document.getElementById("fg_fl2").innerHTML = fllength + "条";
+                    var str = "";
+                    for (var i = 0; i < t1; i++) {
+                        var name = "" + message.CountryLaw[i].lTitle;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.CountryLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.CountryLaw[i].lPubdate + "</span><span>国家级</span></a>"
+                    }
+                    for (var i = 0; i < t2; i++) {
+                        var name = "" + message.cityLaw[i].lTitle;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.cityLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.cityLaw[i].lPubdate + "</span><span>市区级</span></a>"
+
+                    }
+                    for (var i = 0; i < t3; i++) {
+                        var name = "" + message.provinceLaw[i].lTitle;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.provinceLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.provinceLaw[i].lPubdate + "</span><span>省厅级</span></a>"
+
+                    }
+                    for (var i = 0; i < t4; i++) {
+                        var name = "" + message.townLaw[i].lTitle;
+                        var name1 = "";
+                        if (name.length > 15) {
+                            name1 = name.substring(0, 10) + "......";
+                        } else {
+                            name1 = name;
+                        }
+                        str += "<a class='a3' onclick='getwenjian(this)' id='fg" + message.townLaw[i].lawId + "'><span>" + name1 + "</span><span>" + message.townLaw[i].lPubdate + "</span><span>镇村级</span></a>"
+                    }
+                    document.getElementById("fg2").innerHTML = str;
+                    $.mCustomScrollbar.defaults.scrollButtons.enable = true;
+                    $.mCustomScrollbar.defaults.axis = "yx";
+                    $("#fg2").mCustomScrollbar({theme: "minimal"});
+                },
+                error: function (xhr, type, errorThrown) {
+
+                }
+            });
+
+
+        },
+        error: function (xhr, type, errorThrown) {
+
+        }
+    });
+
+    /* 反馈详情弹出框 */
+    function getfeedbackxq(it) {
+        var id = it.id;
+        $.ajax({
+            url: uri + "/XQ/" + id,
+            dataType: 'json',//服务器返回json格式数据
+            type: 'get',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                console.log("反馈详情弹出框");
+                console.log(data);
+                /* backtype:
+					bType: "家庭"
+					__proto__: Object
+					fAdmissiblecontent: null
+					fAdmissibleunit: "6"
+					fBeiyong1: "1"
+					fBeiyong2: "1"
+					fContent: "bb"
+					fHandle: true
+					fImagepath: null
+					fJudge: true
+					fPeopleid: 1057
+					fTime: "2019-07-07 "
+					fTitle: "aa"
+					fType: 1
+					feedbackId: 96 */
+                var card = document.getElementById("dwd");
+                var card_content = document.getElementById("dwd_content");
+                card.style.display = "block";
+                var str = "";
+                str += "<tr><td>反馈标题：</td><td>" + data.data.fTitle + "</td></tr>";
+                str += "<tr><td>反馈时间：</td><td>" + data.data.fTime + "</td></tr>";
+                if (data.data.fHandle == true) {
+                    str += "<tr><td>是否已处理：</td><td>是</td></tr>";
+                } else {
+                    str += "<tr><td>是否已处理：</td><td>否</td></tr>";
+                }
+                str += "<tr><td>反馈内容：</td><td>" + data.data.fContent + "</td></tr>";
+                card_content.innerHTML = str;
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+    }
+
+    /* 党员等详情 */
+    function getzsdyxq(it) {
+        var id = it.id.substring(2);
+        var name = it.innerHTML;
+        //alert(id+name);
+        $.ajax({
+            url: uri + "findPartyMemberById/" + id,
+            dataType: 'json',//服务器返回json格式数据
+            type: 'get',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                console.log(data);
+
+                var card = document.getElementById("dwd");
+                var card_content = document.getElementById("dwd_content");
+                card.style.display = "block";
+                var str = "";
+                str += "<tr><td>姓名：</td><td>" + data.partyMember.yonghu.userName + "</td></tr>";
+                str += "<tr><td>性别：</td><td>" + data.partyMember.yonghu.userSex + "</td></tr>";
+                str += "<tr><td>民族：</td><td>" + data.partyMember.nation + "</td></tr>";
+                str += "<tr><td>联系方式：</td><td>" + data.partyMember.yonghu.userPhone + "</td></tr>";
+                str += "<tr><td>文化程度：</td><td>" + data.partyMember.pmiDegreeofeducation + "</td></tr>";
+                str += "<tr><td>入党时间：</td><td>" + data.partyMember.pmiJointime + "</td></tr>";
+                str += "<tr><td>党内职务：</td><td>" + data.partyMember.pmBasic + "</td></tr>";
+                str += "<tr><td>工作名称：</td><td>" + data.partyMember.job.jName + "</td></tr>";
+                card_content.innerHTML = str;
+
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+    }
+
+    function getybdyxq(it) {
+        var id = it.id.substring(2);
+        console.log(id);
+        $.ajax({
+            url: uri + "selextyvbeidangyuan",
+            data: {
+                ybdyId: id
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                console.log(data);
+                var card = document.getElementById("dwd");
+                var card_content = document.getElementById("dwd_content");
+                card.style.display = "block";
+                var str = "";
+                str += "<tr><td>姓名：</td><td>" + data.record.ybdyName + "</td></tr>";
+                str += "<tr><td>性别：</td><td>" + data.record.ybdySex + "</td></tr>";
+                str += "<tr><td>联系方式：</td><td>" + data.record.ybdyPhone + "</td></tr>";
+                str += "<tr><td>文化程度：</td><td>" + data.record.ybdyWenhua + "</td></tr>";
+                str += "<tr><td>成为预备党员时间：</td><td>" + data.record.ybdyTime + "</td></tr>";
+                str += "<tr><td>工作单位：</td><td>" + data.record.ybdyDanwei + "</td></tr>";
+                str += "<tr><td>工作职务：</td><td>" + data.record.ybdyZhiwu + "</td></tr>";
+                card_content.innerHTML = str;
+
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+    }
+
+    function getfzdyxq(it) {
+        var id = it.id.substring(2);
+        //alert(id);
+        $.ajax({
+            url: uri + "selectfazhanduixiang",
+            data: {
+                fzdxId: id
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                console.log(data);
+                var card = document.getElementById("dwd");
+                var card_content = document.getElementById("dwd_content");
+                card.style.display = "block";
+                var str = "";
+                str += "<tr><td>姓名：</td><td>" + data.record.fzdxName + "</td></tr>";
+                str += "<tr><td>性别：</td><td>" + data.record.fzdxSex + "</td></tr>";
+                str += "<tr><td>联系方式：</td><td>" + data.record.fzdxPhone + "</td></tr>";
+                str += "<tr><td>文化程度：</td><td>" + data.record.fzdxWenhua + "</td></tr>";
+                str += "<tr><td>成为发展对象时间：</td><td>" + data.record.fzdxTime + "</td></tr>";
+                str += "<tr><td>工作单位：</td><td>" + data.record.fzdxDanwei + "</td></tr>";
+                str += "<tr><td>工作职务：</td><td>" + data.record.fzdxZhiwu + "</td></tr>";
+                card_content.innerHTML = str;
+
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+    }
+
+    function getjjdyxq(it) {
+        var id = it.id.substring(2);
+        //alert(id);
+        $.ajax({
+            url: uri + "selectJijifenz",
+            data: {
+                Id: id
+            },
+            dataType: 'json',//服务器返回json格式数据
+            type: 'post',//HTTP请求类型
+            timeout: 10000,//超时时间设置为10秒；
+            success: function (data) {
+                console.log(data);
+                var card = document.getElementById("dwd");
+                var card_content = document.getElementById("dwd_content");
+                card.style.display = "block";
+                var str = "";
+                str += "<tr><td>姓名：</td><td>" + data.data.jjfzName + "</td></tr>";
+                str += "<tr><td>性别：</td><td>" + data.data.jjfzSex + "</td></tr>";
+                str += "<tr><td>联系方式：</td><td>" + data.data.jjfzPhone + "</td></tr>";
+                str += "<tr><td>文化程度：</td><td>" + data.data.jjfzWenhua + "</td></tr>";
+                str += "<tr><td>成为积极分子时间：</td><td>" + data.data.jjfzTime + "</td></tr>";
+                str += "<tr><td>工作单位：</td><td>" + data.data.jjfzDanwei + "</td></tr>";
+                str += "<tr><td>工作职务：</td><td>" + data.data.jjfzZhiwu + "</td></tr>";
+                card_content.innerHTML = str;
+
+            },
+            error: function (xhr, type, errorThrown) {
+
+            }
+        });
+    }
+
+    /* 法规弹出框 */
+    function getwenjian(it) {
+        var id = it.id + "";
+        alert(id);
+        var type = id.substring(0, 2);
+        var trueid = id.substr(2);
+        if (type == "fg") {
+            //法规
+        }
+        if (type == "zc") {
+            //政策
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>郑州市惠济区纪检监督平台</title>
+</head>
+<link href="/static/css/all.css" rel="stylesheet"/>
+<script src='../js/uri.js' type="text/javascript"></script>
+<style>
+    #backimg {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        filter: blur(5px);
+        z-index: -1;
+    }
+
+    header {
+        position: fixed;
+        width: 98%;
+        left: 1%;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        margin: 1vh 0;
+        height: 8vh;
+        line-height: 8vh;
+        z-index: 2;
+    }
+
+    header span:first-child {
+        position: relative;
+        display: inline-block;
+        color: white;
+        text-shadow: 0px 0px 2px white;
+        font-size: 1.6vw;
+        letter-spacing: 0.2vw;
+        left: 1vw;
+        margin-right: 4vw;
+    }
+
+    header .buttons button {
+        position: relative;
+        padding: 0 5px;
+        margin: 0 0.5vw;
+        background-color: black;
+        color: #555;
+        border: none;
+        height: 1.6rem;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        margin-right: 0.5vw;
+    }
+
+    header .person {
+        position: relative;
+        margin-left: 2vw;
+        display: inline;
+        width: 4vw;
+        height: 1.6rem;
+        background-color: black;
+        color: white;
+    }
+
+    .index-content {
+        position: relative;
+        height: 89vh;
+        width: 98%;
+        top: 10vh;
+        left: 1%;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        margin-bottom: 1vh;
+        overflow: hidden;
+    }
+
+    .index-content iframe {
+        position: relative;
+        width: 102%;
+        border: none;
+        height: 100%;
+    }
+
+    #mydata {
+        position: relative;
+        background-color: black;
+        border: none;
+        color: white;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 5px;
+        padding-left: 10px;
+        margin-left: 1vw;
+    }
+
+    header .searchgo {
+        position: relative;
+        top: 2px;
+        height: 30px;
+        display: inline-block;
+        line-height: 30px;
+        width: 30px;
+        text-align: center;
+        border-radius: 15px;
+        background-color: black;
+        color: white;
+        font-size: 2vw;
+        border: none;
+    }
+</style>
+<link href="/static/css/data.css" rel="stylesheet"/>
+<body>
+<div id="datacontent"></div>
+<img id="backimg" src="/static/img/back2.jpg"/>
+<header>
+    <span>郑州市惠济区纪检监督平台</span>
+    <span class="buttons">
+				<button type="button" class="active" id="qy1" onclick="tiaozhuan(this)">全区</button>
+				<button type="button" id="qy2" onclick="tiaozhuan(this)">迎宾路</button>
+				<button type="button" id="qy3" onclick="tiaozhuan(this)">新城</button>
+				<button type="button" id="qy4" onclick="tiaozhuan(this)">长兴路</button>
+				<button type="button" id="qy5" onclick="tiaozhuan(this)">大河路</button>
+				<button type="button" id="qy6" onclick="tiaozhuan(this)">古荥镇</button>
+				<button type="button" id="qy7" onclick="tiaozhuan(this)">刘寨</button>
+				<button type="button" id="qy8" onclick="tiaozhuan(this)">花园口</button>
+				<button type="button" id="qy9" onclick="tiaozhuan(this)">老鸦陈</button>
+			</span>
+    <input id="mydata" type="text" placeholder="选择时间段" onclick="datainit(this)"/>
+    <input class='searchgo' type="button" onclick="searchgo()" value=">"/>
+    <span class="person">zhanghao</span>
+</header>
+<div class="index-content" id="index-content">
+    <iframe id="indexiframe" src="quanju.html"></iframe>
+</div>
+<script src="/static/js/jquery-1.11.0.min.js"></script>
+<script src="/static/js/data.js"></script>
+<script>
+    var thedata1 = new Date();
+    var theyear = thedata1.getFullYear() - 5;
+    var nowyear1 = thedata1.getFullYear();
+    var nowmouth1 = thedata1.getMonth();
+    if (nowmouth1 < 10) {
+        var t = "0" + nowmouth1;
+        nowmouth1 = t;
+    }
+    var mydata = document.getElementById("mydata");
+    if (isrunnian(nowyear1) && nowmouth1 == 2) {
+        mydata.value = theyear + "-" + nowmouth1 + "-01~" + nowyear1 + "-" + nowmouth1 + "-29";
+    }
+    if (!isrunnian(nowyear1) && nowmouth1 == 2) {
+        mydata.value = theyear + "-" + nowmouth1 + "-01~" + nowyear1 + "-" + nowmouth1 + "-28";
+    }
+    if (nowmouth1 == 1 || nowmouth1 == 3 || nowmouth1 == 5 || nowmouth1 == 7 || nowmouth1 == 8 || nowmouth1 == 10 || nowmouth1 == 12) {
+        mydata.value = theyear + "-" + nowmouth1 + "-01~" + nowyear1 + "-" + nowmouth1 + "-31";
+    }
+    if (nowmouth1 == 4 || nowmouth1 == 6 || nowmouth1 == 9 || nowmouth1 == 11) {
+        mydata.value = theyear + "-" + nowmouth1 + "-01~" + nowyear1 + "-" + nowmouth1 + "-30";
+    }
+    var indexiframe = document.getElementById("indexiframe");
+
+    function tiaozhuan(it) {
+        var activeindex = document.getElementsByClassName("active")[0];
+        switch (it.id) {
+            case "qy1":
+                indexiframe.src = "quanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                break;
+            case "qy2":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 4;
+                break;
+            case "qy3":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 8;
+                break;
+            case "qy4":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 7;
+                break;
+            case "qy5":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 3;
+                break;
+            case "qy6":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 1;
+                break;
+            case "qy7":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 6;
+                break;
+            case "qy8":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 2;
+                break;
+            case "qy9":
+                indexiframe.src = "noquanju.html";
+                activeindex.classList.remove("active");
+                it.className = "active";
+                zhenId = 5;
+                break;
+        }
+    }
+</script>
+</body>
+</html>
